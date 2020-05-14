@@ -42,6 +42,11 @@ def getGtbb(imageFile):
                 coord.append(int(step[i]))
     return coord
 
+def checkIntersection(x,y,w,h,x1,y1,w1,h1):
+    print("The real are: ", x,y,w,h)
+    print("The test are: ", x1,y1,w1,h1)
+    if x1+w1<x or x1>x+w or y1+h1<y or y1>y+h or x1+w1<x+w/2 or x1>x+w/2 or y1+h1<y+h/2 or y1>y+h/2:
+        return True
 
 
 #find the body Haar Cascade
@@ -59,24 +64,24 @@ for imageF in glob('*.png'):
      hreal = realCoord[3]
     
      for j in range(0, len(rectList),  4):
-         xreal = rectList[j]
-         yreal = rectList[j+1]
-         wreal = rectList[j+2]
-         hreal = rectList[j+3]
-         if rectList[j]==realCoord[j%4] and rectList[j+1]==realCoord[(j+1)%4] and rectList[j+2]==realCoord[(j+2)%4] and rectList[j+3]==realCoord[(j+3)%4]:
-             print("HIT")
-         else:
+         xtest = rectList[j]
+         ytest = rectList[j+1]
+         wtest = rectList[j+2]
+         htest = rectList[j+3]
+         if checkIntersection(xreal,yreal,wreal,hreal,xtest,ytest,wtest,htest):
              print("MISS")
+         else:
+             print("HIT")
 
     
-    '''    
+
 
 #emfanisi eikonas
 
 
 cv2.destroyAllWindows()
 
-'''/
+'''
 print('The number of images is', im_count)
 print('The number of rectangle is', rectList)
 print('Real coord are', realCoord)
